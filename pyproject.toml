@@ -1,0 +1,16 @@
+[project]
+name = "grocery-delivery-microservices"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv.workspace]
+members = [
+    "services/product-service",
+    "services/customer-service",
+    "services/order-service",
+    "services/delivery-service",
+    "gateway",
+]
