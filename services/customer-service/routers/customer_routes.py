@@ -14,15 +14,10 @@ from services.customer_service import (
     get_all_customers,
     get_customer_addresses,
     get_customer_by_id,
+    get_customer_with_addresses,
     update_customer,
     delete_customer,
 
-    # get_customer_by_id,
-    # update_customer,
-    # delete_customer,
-    # add_address_to_customer,
-    # get_customer_addresses,
-    # get_customer_with_addresses,
 )
 
 router = APIRouter()
@@ -64,7 +59,6 @@ def update_existing_customer(
 
     return updated_customer
 
-
 @router.delete("/{customer_id}")
 def remove_customer(customer_id: int, db: Session = Depends(get_db)):
     deleted_customer = delete_customer(db, customer_id)
@@ -89,3 +83,10 @@ def read_customer_addresses(customer_id: int, db: Session = Depends(get_db)):
     if addresses is None:
         raise HTTPException(status_code=404, detail="Customer not found")
     return addresses
+
+@router.get("/with-addresses/{customer_id}", response_model=CustomerWithAddressesResponse)
+def read_customer_with_addresses(customer_id: int, db: Session = Depends(get_db)):
+    customer = get_customer_with_addresses(db, customer_id)
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return customer

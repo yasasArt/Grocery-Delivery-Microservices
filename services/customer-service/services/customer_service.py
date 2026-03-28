@@ -16,7 +16,6 @@ def create_customer(db: Session, customer_data: CustomerCreate):
     db.refresh(customer)
     return customer
 
-
 def get_all_customers(db: Session):
     return db.query(Customer).all()
 
@@ -50,7 +49,6 @@ def delete_customer(db: Session, customer_id: int):
     db.commit()
     return customer
 
-
 def add_address_to_customer(db: Session, customer_id: int, address_data: AddressCreate):
     customer = get_customer_by_id(db, customer_id)
     if not customer:
@@ -69,6 +67,8 @@ def get_customer_addresses(db: Session, customer_id: int):
 
     return db.query(Address).filter(Address.customer_id == customer_id).all()
 
+def get_customer_with_addresses(db: Session, customer_id: int):
+    return db.query(Customer).filter(Customer.id == customer_id).first()
 
 def get_customer_with_addresses(db: Session, customer_id: int):
     return db.query(Customer).filter(Customer.id == customer_id).first()
