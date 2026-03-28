@@ -11,6 +11,7 @@ from schemas.address import AddressCreate, AddressResponse
 from services.customer_service import (
     create_customer,
     get_all_customers,
+    get_customer_by_id,
     # get_customer_by_id,
     # update_customer,
     # delete_customer,
@@ -34,3 +35,9 @@ def create_new_customer(customer: CustomerCreate, db: Session = Depends(get_db))
 def read_all_customers(db: Session = Depends(get_db)):
     return get_all_customers(db)
 
+@router.get("/{customer_id}", response_model=CustomerResponse)
+def read_customer(customer_id: int, db: Session = Depends(get_db)):
+    customer = get_customer_by_id(db, customer_id)
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return customer
