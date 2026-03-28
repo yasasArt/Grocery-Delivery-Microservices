@@ -12,6 +12,7 @@ from services.customer_service import (
     create_customer,
     get_all_customers,
     get_customer_by_id,
+    update_customer,
     # get_customer_by_id,
     # update_customer,
     # delete_customer,
@@ -41,3 +42,20 @@ def read_customer(customer_id: int, db: Session = Depends(get_db)):
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")
     return customer
+
+
+@router.put("/{customer_id}", response_model=CustomerResponse)
+def update_existing_customer(
+    customer_id: int,
+    customer: CustomerUpdate,
+    db: Session = Depends(get_db)
+):
+    updated_customer = update_customer(db, customer_id, customer)
+
+    if updated_customer == "not_found":
+        raise HTTPException(status_code=404, detail="Customer not found")
+
+    if updated_customer == "email_exists":
+        raise HTTPException(status_code=400, detail="Email already exists")
+
+    return updated_customer
