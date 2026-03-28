@@ -13,6 +13,8 @@ from services.customer_service import (
     get_all_customers,
     get_customer_by_id,
     update_customer,
+    delete_customer,
+    
     # get_customer_by_id,
     # update_customer,
     # delete_customer,
@@ -59,3 +61,11 @@ def update_existing_customer(
         raise HTTPException(status_code=400, detail="Email already exists")
 
     return updated_customer
+
+
+@router.delete("/{customer_id}")
+def remove_customer(customer_id: int, db: Session = Depends(get_db)):
+    deleted_customer = delete_customer(db, customer_id)
+    if not deleted_customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return {"message": "Customer deleted successfully"}
