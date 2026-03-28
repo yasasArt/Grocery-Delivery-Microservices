@@ -40,3 +40,24 @@ def update_customer(db: Session, customer_id: int, customer_data: CustomerUpdate
     db.commit()
     db.refresh(customer)
     return customer
+
+def delete_customer(db: Session, customer_id: int):
+    customer = get_customer_by_id(db, customer_id)
+    if not customer:
+        return None
+
+    db.delete(customer)
+    db.commit()
+    return customer
+
+
+def add_address_to_customer(db: Session, customer_id: int, address_data: AddressCreate):
+    customer = get_customer_by_id(db, customer_id)
+    if not customer:
+        return None
+
+    address = Address(customer_id=customer_id, **address_data.model_dump())
+    db.add(address)
+    db.commit()
+    db.refresh(address)
+    return address
