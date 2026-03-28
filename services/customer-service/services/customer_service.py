@@ -61,3 +61,14 @@ def add_address_to_customer(db: Session, customer_id: int, address_data: Address
     db.commit()
     db.refresh(address)
     return address
+
+def get_customer_addresses(db: Session, customer_id: int):
+    customer = get_customer_by_id(db, customer_id)
+    if not customer:
+        return None
+
+    return db.query(Address).filter(Address.customer_id == customer_id).all()
+
+
+def get_customer_with_addresses(db: Session, customer_id: int):
+    return db.query(Customer).filter(Customer.id == customer_id).first()

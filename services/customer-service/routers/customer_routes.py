@@ -12,6 +12,7 @@ from services.customer_service import (
     add_address_to_customer,
     create_customer,
     get_all_customers,
+    get_customer_addresses,
     get_customer_by_id,
     update_customer,
     delete_customer,
@@ -81,3 +82,10 @@ def create_address_for_customer(
     if not created_address:
         raise HTTPException(status_code=404, detail="Customer not found")
     return created_address
+
+@router.get("/{customer_id}/addresses", response_model=list[AddressResponse])
+def read_customer_addresses(customer_id: int, db: Session = Depends(get_db)):
+    addresses = get_customer_addresses(db, customer_id)
+    if addresses is None:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return addresses
