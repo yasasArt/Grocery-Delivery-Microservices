@@ -9,12 +9,13 @@ from schemas.customer import (
 )
 from schemas.address import AddressCreate, AddressResponse
 from services.customer_service import (
+    add_address_to_customer,
     create_customer,
     get_all_customers,
     get_customer_by_id,
     update_customer,
     delete_customer,
-    
+
     # get_customer_by_id,
     # update_customer,
     # delete_customer,
@@ -69,3 +70,14 @@ def remove_customer(customer_id: int, db: Session = Depends(get_db)):
     if not deleted_customer:
         raise HTTPException(status_code=404, detail="Customer not found")
     return {"message": "Customer deleted successfully"}
+
+@router.post("/{customer_id}/addresses", response_model=AddressResponse, status_code=status.HTTP_201_CREATED)
+def create_address_for_customer(
+    customer_id: int,
+    address: AddressCreate,
+    db: Session = Depends(get_db)
+):
+    created_address = add_address_to_customer(db, customer_id, address)
+    if not created_address:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    return created_address
