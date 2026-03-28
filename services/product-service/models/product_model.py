@@ -11,6 +11,6 @@ class Product(Base):
     category = Column(String(50), nullable=False, index=True)
     price = Column(Float, nullable=False)
     stock_quantity = Column(Integer, nullable=False, default=0)
-    is_available = Column(Boolean, default=True)
+    is_available = Column(Boolean, nullable=False, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
