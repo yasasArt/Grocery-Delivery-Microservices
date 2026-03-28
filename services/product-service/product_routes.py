@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from database import get_db
 from product_schema import ProductCreate, ProductUpdate, ProductResponse
@@ -13,3 +13,26 @@ def create_product_endpoint(product: ProductCreate, db: Session = Depends(get_db
 @router.get("/", response_model=list[ProductResponse])
 def get_all_products_endpoint(db: Session = Depends(get_db)):
     return get_all_products(db)
+
+@router.get("/available-list", response_model=list[ProductResponse])
+def get_available_products_endpoint(db:Session =Depends(get_db)):
+    return get_available_products(db)
+
+@router.get("/search", response_model=list[ProductResponse])
+def search_products_endpoint(
+    q: str = Query(..., min_length=1, description="Search keyword for product name"),
+    db: Session = Depends(get_db)):
+
+    return search_products(db, q)
+
+@router.get("/category/{category_name}", response_model=list[ProductResponse])
+def get_products_by_category_endpoint(category_name: str, db: Session = Depends(get_db)):
+    return get_products_by_category(db, category_name)
+
+@router.get("/{product_id}", response_model=ProductResponse)
+def get_product_by_id_endpoint(product_id: int, db: Session = Depends(get_db)):
+    product = get_product_by_id(db, product_id)
+
+    if not product:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+    return product
