@@ -1,11 +1,9 @@
 [project]
 name = "delivery-service"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.13"
+description = "Delivery service for grocery delivery microservices"
+requires-python = ">=3.12"
 dependencies = [
-    "fastapi[standard]>=0.135.2",
-    "pydantic>=2.12.5",
-    "sqlalchemy>=2.0.48",
+    "fastapi[standard]>=0.115.0",
+    "sqlalchemy>=2.0.0",
 ]
