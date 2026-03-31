@@ -1,6 +1,8 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime
-from app.db.database import Base
+
+from sqlalchemy import Column, DateTime, Integer, String
+
+from database import Base
 
 
 class Delivery(Base):
@@ -13,5 +15,6 @@ class Delivery(Base):
     delivery_status = Column(String(30), nullable=False, default="ASSIGNED")
     estimated_time = Column(String(50), nullable=True)
     delivery_address = Column(String(255), nullable=False)
+    notes = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
