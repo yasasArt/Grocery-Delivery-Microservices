@@ -10,9 +10,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from ..main import app
-from ..database import Base, get_db
-from ..models.product_model import Product
+from main import app # type: ignore
+from database import Base, get_db
+from models.product_model import Product
 
 
 # Create a test database

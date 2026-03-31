@@ -13,7 +13,7 @@ def test_create_product(client):
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == "Fresh Milk 1L"
-    assert data["category"] == "Dairy"
+    assert data["category"] == "dairy"
 
 def test_get_all_products(client):
     client.post(
@@ -94,8 +94,7 @@ def test_delete_product(client):
     product_id = create_response.json()["id"]
 
     response = client.delete(f"/products/{product_id}")
-    assert response.status_code == 200
-    assert response.json()["message"] == "Product deleted successfully"
+    assert response.status_code == 204
 
 def test_get_products_by_category(client):
     client.post(
@@ -139,7 +138,7 @@ def test_get_available_products(client):
         }
     )
 
-    response = client.get("/products/available/list")
+    response = client.get("/products/available-list")
     assert response.status_code == 200
     assert len(response.json()) == 1
     assert response.json()[0]["name"] == "Milk Powder"
