@@ -8,9 +8,3 @@ dependencies = [
     "fastapi[standard]>=0.135.2",
     "httpx>=0.28.1",
 ]
-
-[dependency-groups]
-dev = [
-    "pytest>=9.0.2",
-    "requests>=2.33.0",
-]
