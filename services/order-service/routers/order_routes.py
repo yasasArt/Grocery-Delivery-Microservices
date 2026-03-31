@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..schemas.cart import (
+from database import get_db
+from schemas.cart import (
     CartCreate,
     CartItemCreate,
     CartItemUpdate,
     CartResponse,
     CartItemResponse,
 )
-from ..schemas.order import OrderResponse
+from schemas.order import OrderResponse
 from services.order_service import (
     create_cart,
     get_cart_by_customer_id,

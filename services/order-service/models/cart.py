@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, DateTime
 from sqlalchemy.orm import relationship
-from app.db.database import Base
+from database import Base
 
 
 class Cart(Base):
