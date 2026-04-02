@@ -93,3 +93,4 @@ def delete_delivery(db: Session, delivery_id: int):
     db.delete(delivery)
     db.commit()
     return delivery
+

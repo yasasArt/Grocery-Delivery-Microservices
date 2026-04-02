@@ -106,3 +106,25 @@ def remove_delivery(delivery_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Delivery not found")
 
     return {"message": "Delivery deleted successfully"}
+
+@router.get("/", response_model=list[DeliveryResponse])
+def read_all_deliveries(
+    status_filter: str | None = Query(default=None, alias="status"),
+    db: Session = Depends(get_db),
+):
+    if status_filter:
+        return get_deliveries_by_status(db, status_filter)
+    return get_all_deliveries(db)
+
+@router.put("/{delivery_id}", response_model=DeliveryResponse)
+def update_existing_delivery(
+    delivery_id: int,
+    delivery: DeliveryUpdate,
+    db: Session = Depends(get_db),
+):
+    updated_delivery = update_delivery(db, delivery_id, delivery)
+
+    if updated_delivery == "not_found":
+        raise HTTPException(status_code=404, detail="Delivery not found")
+
+    return updated_delivery
